@@ -13,7 +13,6 @@ While there may be other Python ports available, this one is the most up
 to date and is recommended by the original developers of zxcvbn at this
 time.
 
-
 Features
 --------
 - **Tested in Python versions 2.7, 3.3-3.6**

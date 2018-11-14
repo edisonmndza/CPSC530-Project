@@ -1,10 +1,9 @@
 from zxcvbn import scoring
 from . import adjacency_graphs
 from zxcvbn.frequency_lists import FREQUENCY_LISTS
-import re
-
+from . import readn_grams as readn_grams
 from zxcvbn.scoring import most_guessable_match_sequence
-
+import re
 
 def build_ranked_dict(ordered_list):
     return {word: idx for idx, word in enumerate(ordered_list, 1)}
@@ -86,6 +85,7 @@ def omnimatch(password, _ranked_dictionaries=RANKED_DICTIONARIES):
         sequence_match,
         regex_match,
         date_match,
+		n_gram_match
     ]:
         matches.extend(matcher(password, _ranked_dictionaries=_ranked_dictionaries))
 
@@ -117,7 +117,30 @@ def dictionary_match(password, _ranked_dictionaries=RANKED_DICTIONARIES):
 
     return sorted(matches, key=lambda x: (x['i'], x['j']))
 
-
+def n_gram_match(password, _ranked_dictionaries=RANKED_DICTIONARIES):
+	#first we build a dictionary out of the n_grams
+	#first we need to concatonate each word in the dictionary, to build a usable string
+	
+	
+	#read in the file
+	n_gram2dList = readn_grams.read_N_grams("w5.txt")
+	
+	#for each array, concatonate all but the first word, as the first item in the array is the rank
+	n_gram_ordered_list = []
+	for n_gram in n_gram2dList:
+		n_gramConcat = ""
+		for i in range(0, len(n_gram)):
+			if(i != 0):
+				n_gramConcat += n_gram[i]
+		n_gram_ordered_list.append(n_gramConcat)
+		
+	#build the dictionary
+	n_gram_rankedDictionary = build_ranked_dict(n_gram_ordered_list)
+	matches = dictionary_match(password, n_gram_rankedDictionary)
+	return matches
+	
+	
+	
 def reverse_dictionary_match(password,
                              _ranked_dictionaries=RANKED_DICTIONARIES):
     reversed_password = ''.join(reversed(password))
