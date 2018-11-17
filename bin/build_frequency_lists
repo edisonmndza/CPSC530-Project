@@ -36,6 +36,7 @@ DICTIONARIES = dict(
     surnames=10000,
     male_names=None,
     female_names=None,
+	ngrams=None
 )
 
 

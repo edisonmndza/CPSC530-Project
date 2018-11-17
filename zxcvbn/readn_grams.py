@@ -35,10 +35,21 @@ def read_N_grams(filename):
 if __name__ == "__main__":
 	n_gramList = read_N_grams("w5.txt")
 	
+	n_gram_ordered_list = []
+	for n_gram in n_gramList:
+		n_gramConcat = ""
+		for i in range(0, len(n_gram)):
+			if(i != 0):
+				n_gramConcat += n_gram[i]
+		n_gram_ordered_list.append(n_gramConcat)
+	
 	
 	#print out the words as an example to see how the data is stored.
-	for n_gram in n_gramList:
+	outfile = open("w5out.txt", "w")
+	for n_gram in n_gram_ordered_list:
 		printStr = ""
 		for word in n_gram:
-			printStr += word + " "
-		print(printStr)
+			printStr += word
+		outfile.write(printStr + "\n")
+		
+	outfile.close()

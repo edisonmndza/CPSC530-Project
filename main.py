@@ -2,7 +2,7 @@
 from zxcvbn import zxcvbn
 
 def main():
-	results = zxcvbn("test")
+	results = zxcvbn("ababyinthehouse")
 	
 	
 
